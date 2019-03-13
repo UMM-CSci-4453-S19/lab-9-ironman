@@ -70,7 +70,7 @@ function ButtonCtrl($scope, buttonApi) {
 
     function rowClick($event) {
         $scope.errorMessage = '';
-        buttonApi.clickRow($event.srcElement.parentElement.id - 100)
+        buttonApi.clickRow($event.srcElement.parentElement.id)
             .success(function () {
                 refreshList();
             })

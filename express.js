@@ -35,9 +35,9 @@ app.get("/list",function(req,res){
 });
 
 app.get("/click",function(req,res){
-  var id = req.param('id');
+  var id = req.query['id'];
   var sql = 'update ironman.current_transaction set amount = amount + 1, cost = cost + price where ID = ' + id;
-  console.log("Attempting sql ->"+sql+"<-");
+  //console.log("Attempting sql ->"+sql+"<-");
 
   connection.query(sql,(function(res){return function(err,rows,fields){
      if(err){console.log("We have an insertion error:");
@@ -49,11 +49,11 @@ app.get("/click",function(req,res){
 
 
 app.get("/deleteRow",function (req,res) {
-    var id = req.param('id');
+    var id = req.query['id'];
     var sql = 'update ironman.current_transaction set amount = 0, cost = 0 where ID = ' +id;
 
 
-    console.log("Attempting sql ->"+sql+"<-");
+    //console.log("Attempting sql ->"+sql+"<-");
 
     connection.query(sql,(function(res){return function(err,rows,fields){
         if(err){console.log("We have a deletion error:");

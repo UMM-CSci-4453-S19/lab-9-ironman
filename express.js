@@ -12,16 +12,31 @@ connection.connect(function(err){if(err){console.log(error)}});
 
 app.use(express.static(__dirname + '/public'));
 app.get("/buttons",function(req,res){
-  var sql = 'SELECT * FROM test.till_buttons';
+  var sql = 'SELECT * FROM ironman.till_buttons';
   connection.query(sql,(function(res){return function(err,rows,fields){
      if(err){console.log("We have an error:");
              console.log(err);}
+      for(var index in rows) {
+          button = rows[index];
+          button.left = button.left_position;
+          delete button.left_position;
+      }
      res.send(rows);
   }})(res));
 });
+
+app.get("/list",function(req,res){
+    var sql = 'SELECT * FROM ironman.current_transaction where amount > 0';
+    connection.query(sql,(function(res){return function(err,rows,fields){
+        if(err){console.log("We have an error:");
+            console.log(err);}
+        res.send(rows);
+    }})(res));
+});
+
 app.get("/click",function(req,res){
   var id = req.param('id');
-  var sql = 'YOUR SQL HERE'
+  var sql = 'update ironman.current_transaction set amount = amount + 1, cost = cost + price where ID = ' + id;
   console.log("Attempting sql ->"+sql+"<-");
 
   connection.query(sql,(function(res){return function(err,rows,fields){
@@ -31,5 +46,8 @@ app.get("/click",function(req,res){
   }})(res));
 });
 // Your other API handlers go here!
+
+
+
 
 app.listen(port);

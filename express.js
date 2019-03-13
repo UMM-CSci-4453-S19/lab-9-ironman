@@ -12,17 +12,32 @@ connection.connect(function(err){if(err){console.log(error)}});
 
 app.use(express.static(__dirname + '/public'));
 app.get("/buttons",function(req,res){
-  var sql = 'SELECT * FROM test.till_buttons';
+  var sql = 'SELECT * FROM ironman.till_buttons';
   connection.query(sql,(function(res){return function(err,rows,fields){
      if(err){console.log("We have an error:");
              console.log(err);}
+      for(var index in rows) {
+          button = rows[index];
+          button.left = button.left_position;
+          delete button.left_position;
+      }
      res.send(rows);
   }})(res));
 });
+
+app.get("/list",function(req,res){
+    var sql = 'SELECT * FROM ironman.current_transaction where amount > 0';
+    connection.query(sql,(function(res){return function(err,rows,fields){
+        if(err){console.log("We have an error:");
+            console.log(err);}
+        res.send(rows);
+    }})(res));
+});
+
 app.get("/click",function(req,res){
-  var id = req.param('id');
-  var sql = 'YOUR SQL HERE'
-  console.log("Attempting sql ->"+sql+"<-");
+  var id = req.query['id'];
+  var sql = 'update ironman.current_transaction set amount = amount + 1, cost = cost + price where ID = ' + id;
+  //console.log("Attempting sql ->"+sql+"<-");
 
   connection.query(sql,(function(res){return function(err,rows,fields){
      if(err){console.log("We have an insertion error:");
@@ -31,5 +46,21 @@ app.get("/click",function(req,res){
   }})(res));
 });
 // Your other API handlers go here!
+
+
+app.get("/deleteRow",function (req,res) {
+    var id = req.query['id'];
+    var sql = 'update ironman.current_transaction set amount = 0, cost = 0 where ID = ' +id;
+
+
+    //console.log("Attempting sql ->"+sql+"<-");
+
+    connection.query(sql,(function(res){return function(err,rows,fields){
+        if(err){console.log("We have a deletion error:");
+            console.log(err);}
+        res.send(err); // Let the upstream guy know how it went
+    }})(res));
+
+});
 
 app.listen(port);

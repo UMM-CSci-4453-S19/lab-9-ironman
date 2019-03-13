@@ -15,7 +15,6 @@ function ButtonCtrl($scope, buttonApi) {
     $scope.buttonClick = buttonClick;
     $scope.sum = function (items, prop) {
         return (items.reduce(function (a, b) {
-            console.log(a);
             return Number(a) + Number(b[prop]);
 
         }, 0)).toFixed(2);
@@ -61,7 +60,6 @@ function ButtonCtrl($scope, buttonApi) {
         buttonApi.getList()
             .success(function (data) {
                 $scope.list = data;
-                console.log('hello1');
                 loading = false;
             })
             .error(function () {
@@ -74,7 +72,7 @@ function ButtonCtrl($scope, buttonApi) {
         $scope.errorMessage = '';
         buttonApi.clickRow($event.srcElement.parentElement.id - 100)
             .success(function () {
-                refreshList()
+                refreshList();
             })
             .error(function () {
                 $scope.errorMessage = "Unable to click row";

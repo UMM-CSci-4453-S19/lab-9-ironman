@@ -48,6 +48,19 @@ app.get("/click",function(req,res){
 // Your other API handlers go here!
 
 
+app.get("/deleteRow",function (req,res) {
+    var id = req.param('id');
+    var sql = 'update ironman.current_transaction set amount = 0, cost = 0 where ID = ' +id;
 
+
+    console.log("Attempting sql ->"+sql+"<-");
+
+    connection.query(sql,(function(res){return function(err,rows,fields){
+        if(err){console.log("We have a deletion error:");
+            console.log(err);}
+        res.send(err); // Let the upstream guy know how it went
+    }})(res));
+
+});
 
 app.listen(port);

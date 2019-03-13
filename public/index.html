@@ -29,7 +29,7 @@
         <h3>Items</h3>
         <div id="priceList" class="priceList">
             <TABLE class="itemTable">
-                <TR ng-repeat="item in list" ng-click="rowClick($event)" id="{{item.id+100}}">
+                <TR ng-repeat="item in list" ng-click="rowClick($event)" id="{{item.ID+100}}">
                     <TD>{{item.label}}</TD>
                     <td class="amountCell">{{item.amount}}</td>
                     <td class="priceCell">${{item.cost}}</td>

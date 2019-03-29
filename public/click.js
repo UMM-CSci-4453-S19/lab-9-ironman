@@ -12,6 +12,7 @@ function ButtonCtrl($scope, buttonApi) {
     $scope.isLoading = isLoading;
     $scope.refreshButtons = refreshButtons;
     $scope.rowClick=rowClick;
+    $scope.abort=abort;
     $scope.buttonClick = buttonClick;
     $scope.sum = function (items, prop) {
         return (items.reduce(function (a, b) {
@@ -79,6 +80,16 @@ function ButtonCtrl($scope, buttonApi) {
             });
     }
 
+    function abort($event) {
+        console.log("aborting");
+        buttonApi.abortTransaction().success(function () {
+            refreshList();
+        }).error(function () {
+            $scope.errorMessage = "Unable to abort";
+        });
+
+    }
+
     refreshList();  //make sure the list items are loaded
     refreshButtons();  //make sure the buttons are loaded
 }
@@ -115,6 +126,10 @@ function buttonApi($http, apiUrl) {
         },
         getList: function () {
             var url = apiUrl + '/list';
+            return $http.get(url);
+        },
+        abortTransaction: function () {
+            var url = apiUrl + '/void';
             return $http.get(url);
         }
     };

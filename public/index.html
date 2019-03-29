@@ -8,10 +8,10 @@
     <link rel="stylesheet" href="register.css">
     <script src="click.js"></script>
 </head>
-<body ng-app="buttons" >
+<body ng-app="buttons">
 <div class="container-fluid" ng-controller="buttonCtrl">
     <h1>Cash Register (with buttons)</h1>
-    <div id="buttons" >
+    <div id="buttons">
         <div ng-repeat="button in buttons">
             <div style="position:absolute;left:{{button.left}}px;top:{{button.top}}px">
                 <button id="{{button.buttonID}}" ng-click="buttonClick($event,'button.buttonID');">{{button.label}}
@@ -25,19 +25,24 @@
             </div>
         </div>
     </div>
-    <div id="priceColumn" class="priceColumn">
-        <h3>Items</h3>
-        <div id="priceList" class="priceList">
-            <TABLE class="itemTable">
-                <TR ng-repeat="item in list" ng-click="rowClick($event)" id="{{item.ID}}">
-                    <TD>{{item.label}}</TD>
-                    <td class="amountCell">{{item.amount}}</td>
-                    <td class="priceCell">${{item.cost}}</td>
-                </tr>
-            </TABLE>
-        </div>
-        <div id="totalRow" class="totalRow">
-            <span class="totalHeader">Total:</span><span class="totalValue">${{sum(list,'cost')}}</span>
+    <div>
+        <div id="priceColumn" class="priceColumn">
+            <h3>Items</h3>
+            <div id="priceList" class="priceList">
+                <TABLE class="itemTable">
+                    <TR ng-repeat="item in list" ng-click="rowClick($event)" id="{{item.ID}}">
+                        <TD>{{item.label}}</TD>
+                        <td class="amountCell">{{item.amount}}</td>
+                        <td class="priceCell">${{item.cost}}</td>
+                    </tr>
+                </TABLE>
+            </div>
+            <div id="totalRow" class="totalRow">
+                <span class="totalHeader">Total:</span><span class="totalValue">${{sum(list,'cost')}}</span>
+            </div>
+            <button ng-click="abort($event)">
+                Abort
+            </button>
         </div>
     </div>
 </div>

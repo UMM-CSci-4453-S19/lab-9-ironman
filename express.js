@@ -51,6 +51,20 @@ app.get("/click",function(req,res){
 app.get("/deleteRow",function (req,res) {
     var id = req.query['id'];
     var sql = 'update ironman.current_transaction set amount = 0, cost = 0 where ID = ' +id;
+    //console.log("Attempting sql ->"+sql+"<-");
+
+    connection.query(sql,(function(res){return function(err,rows,fields){
+        if(err){console.log("We have a deletion error:");
+            console.log(err);}
+        res.send(err); // Let the upstream guy know how it went
+    }})(res));
+
+});
+
+
+app.get("/void",function (req,res) {
+    var id = req.query['id'];
+    var sql = 'update ironman.current_transaction set amount = 0, cost = 0';
 
 
     //console.log("Attempting sql ->"+sql+"<-");

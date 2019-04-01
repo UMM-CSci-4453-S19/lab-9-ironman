@@ -131,6 +131,10 @@ function buttonApi($http, apiUrl) {
         abortTransaction: function () {
             var url = apiUrl + '/void';
             return $http.get(url);
+        },
+        sale: function (user) {
+            var url = apiUrl + '/sale?user='+user;
+            return $http.get(url);
         }
     };
 }

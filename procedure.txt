@@ -1,0 +1,7 @@
+create procedure sale(user varchar(30))
+begin
+
+
+insert into transactionHistory values
+
+end;

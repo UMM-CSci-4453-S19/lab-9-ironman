@@ -36,7 +36,7 @@ app.get("/list",function(req,res){
 
 app.get("/click",function(req,res){
   var id = req.query['id'];
-  var sql = 'update ironman.current_transaction set amount = amount + 1, cost = cost + price where ID = ' + id;
+  var sql = 'update ironman.current_transaction set amount = amount + 1, cost = cost + price, timeStamp = NOW() where ID = ' + id;
   //console.log("Attempting sql ->"+sql+"<-");
 
   connection.query(sql,(function(res){return function(err,rows,fields){
@@ -50,7 +50,7 @@ app.get("/click",function(req,res){
 
 app.get("/deleteRow",function (req,res) {
     var id = req.query['id'];
-    var sql = 'update ironman.current_transaction set amount = 0, cost = 0 where ID = ' +id;
+    var sql = 'update ironman.current_transaction set amount = 0, cost = 0, timeStamp = null where ID = ' +id;
     //console.log("Attempting sql ->"+sql+"<-");
 
     connection.query(sql,(function(res){return function(err,rows,fields){
@@ -64,7 +64,7 @@ app.get("/deleteRow",function (req,res) {
 
 app.get("/void",function (req,res) {
     var id = req.query['id'];
-    var sql = 'update ironman.current_transaction set amount = 0, cost = 0';
+    var sql = 'update ironman.current_transaction set amount = 0, cost = 0, timeStamp = null';
 
 
     //console.log("Attempting sql ->"+sql+"<-");

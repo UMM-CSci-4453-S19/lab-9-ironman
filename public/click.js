@@ -173,8 +173,8 @@ function buttonApi($http, apiUrl) {
             var url = apiUrl + '/void';
             return $http.get(url);
         },
-        sale: function (user) {
-            var url = apiUrl + '/sale?user='+user;
+        sale: function () {
+            var url = apiUrl + '/sale';
             return $http.get(url);
         }
     };

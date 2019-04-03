@@ -77,4 +77,9 @@ app.get("/void",function (req,res) {
 
 });
 
+app.get("/sale",function (req,res) {
+
+
+});
+
 app.listen(port);

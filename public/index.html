@@ -10,7 +10,7 @@
 </head>
 <body ng-app="buttons">
 <div class="container-fluid" ng-controller="buttonCtrl">
-    <h1>Cash Register (with buttons)</h1>
+    <h1>Cash Register (with buttons)  Logged in as: {{user}}</h1>
     <div id="buttons">
         <div ng-repeat="button in buttons">
             <div style="position:absolute;left:{{button.left}}px;top:{{button.top}}px">
@@ -42,6 +42,18 @@
             </div>
             <button ng-click="abort($event)">
                 Abort
+            </button>
+            <button ng-click="login('user1')">
+                User1
+            </button>
+            <button ng-click="login('user2')">
+                User2
+            </button>
+            <button ng-click="login('user3')">
+                User3
+            </button>
+            <button ng-click="logout()">
+                Logout
             </button>
         </div>
     </div>

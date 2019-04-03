@@ -20,6 +20,12 @@ function ButtonCtrl($scope, buttonApi) {
 
         }, 0)).toFixed(2);
     };
+    $scope.user ='';
+    $scope.startTime =0;
+    $scope.stopTime = 0;
+    $scope.started = false;
+    $scope.login = login;
+    $scope.logout = logout;
 
     var loading = false;
 
@@ -42,14 +48,22 @@ function ButtonCtrl($scope, buttonApi) {
     }
 
     function buttonClick($event) {
-        $scope.errorMessage = '';
-        buttonApi.clickButton($event.target.id)
-            .success(function () {
-                refreshList()
-            })
-            .error(function () {
-                $scope.errorMessage = "Unable click";
-            });
+        if($scope.user==""){
+            alert("you are not logged in")
+        }else {
+            $scope.errorMessage = '';
+            buttonApi.clickButton($event.target.id)
+                .success(function () {
+                    refreshList();
+                    if (!$scope.started) {
+                        $scope.startTime = Date.now();
+                    }
+                    $scope.started = true;
+                })
+                .error(function () {
+                    $scope.errorMessage = "Unable click";
+                });
+        }
     }
 
     // refreshButtons();  //make sure the buttons are loaded
@@ -70,24 +84,51 @@ function ButtonCtrl($scope, buttonApi) {
     }
 
     function rowClick($event) {
-        $scope.errorMessage = '';
-        buttonApi.clickRow($event.srcElement.parentElement.id)
-            .success(function () {
-                refreshList();
-            })
-            .error(function () {
-                $scope.errorMessage = "Unable to click row";
-            });
+        if($scope.user==""){
+            alert("you are not logged in")
+        }else {
+            $scope.errorMessage = '';
+            buttonApi.clickRow($event.srcElement.parentElement.id)
+                .success(function () {
+                    refreshList();
+                })
+                .error(function () {
+                    $scope.errorMessage = "Unable to click row";
+                });
+        }
     }
 
     function abort($event) {
-        console.log("aborting");
-        buttonApi.abortTransaction().success(function () {
-            refreshList();
+        if($scope.user==""){
+            alert("you are not logged in")
+        }else {
+            console.log("aborting");
+            buttonApi.abortTransaction().success(function () {
+                refreshList();
+                $scope.started = false;
+            }).error(function () {
+                $scope.errorMessage = "Unable to abort";
+            });
+        }
+
+    }
+
+    function login(user) {
+        $scope.user=user;
+    }
+
+    function logout() {
+        $scope.user="";
+    }
+
+    function sale($event) {
+        $scope.errorMessage = '';
+        buttonApi.sale($scope.user).success(function () {
+            $scope.stopTime = Date.now();
+            $scope.started = false;
         }).error(function () {
             $scope.errorMessage = "Unable to abort";
         });
-
     }
 
     refreshList();  //make sure the list items are loaded
@@ -105,7 +146,7 @@ function buttonApi($http, apiUrl) {
             var url = apiUrl + '/click?id=' + id;
 //      console.log("Attempting with "+url);
             return $http.get(url); // Easy enough to do this way
-        }
+        }$scope.errorMessage = '';
     };
 }
 */

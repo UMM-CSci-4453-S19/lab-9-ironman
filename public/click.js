@@ -13,6 +13,7 @@ function ButtonCtrl($scope, buttonApi) {
     $scope.refreshButtons = refreshButtons;
     $scope.rowClick=rowClick;
     $scope.abort=abort;
+    $scope.sale=sale;
     $scope.buttonClick = buttonClick;
     $scope.sum = function (items, prop) {
         return (items.reduce(function (a, b) {

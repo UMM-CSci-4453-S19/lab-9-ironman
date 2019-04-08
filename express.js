@@ -78,8 +78,18 @@ app.get("/void",function (req,res) {
 });
 
 app.get("/sale",function (req,res) {
+    var user = req.query['user'];
+    var sql ='insert into ironman.auxTable (ID,amount,price,cost,timeStamp) select ID,amount,price,cost,timeStamp from ironman.current_transaction; ' +
+        'update ironman.auxTable set TID = TID+1, user ='+user+'; ' +
+        'insert into ironman.transactionHistory select * from ironman.auxTable; ' +
+        'update ironman.current_transaction set amount = 0, cost = 0, timeStamp = null; ';
 
 
+    connection.query(sql,(function(res){return function(err,rows,fields){
+        if(err){console.log("We have an error:");
+            console.log(err);}
+        res.send(err); // Let the upstream guy know how it went
+    }})(res));
 });
 
 app.listen(port);

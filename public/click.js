@@ -174,8 +174,8 @@ function buttonApi($http, apiUrl) {
             var url = apiUrl + '/void';
             return $http.get(url);
         },
-        sale: function () {
-            var url = apiUrl + '/sale';
+        sale: function (user) {
+            var url = apiUrl + '/sale?user='+user;
             return $http.get(url);
         }
     };

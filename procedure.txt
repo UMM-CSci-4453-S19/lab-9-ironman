@@ -1,7 +1,33 @@
 create procedure sale(user varchar(30))
 begin
 
+DECLARE done INT DEFAULT FALSE;
+declare ID1 int;
+declare amount1 int;
+declare price1 dec;
+declare cost1 dec;
+declare timeStamp1 datetime;
 
-insert into transactionHistory values
+declare cur1 cursor for select ID from ironman.current_transaction;
+DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+
+select max(TID)+1 into @x from transactionHistory;
+
+open cur1;
+
+read_loop: LOOP
+    fetch cur1 into ID1;
+    IF done THEN
+          LEAVE read_loop;
+    END IF;
+
+
+    select amount,price,cost,timeStamp into amount1,price1,cost1,timeStamp1 from current_transaction where ID = ID1;
+    insert into ironman.transactionHistory values (@x,ID1,amount1,price1,cost1,user,timeStamp1);
+
+    END LOOP;
+
+
+update ironman.current_transaction set amount = 0, cost = 0, timeStamp = null;
 
 end;

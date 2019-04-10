@@ -124,12 +124,17 @@ function ButtonCtrl($scope, buttonApi) {
 
     function sale($event) {
         $scope.errorMessage = '';
-        buttonApi.sale($scope.user).success(function () {
-            $scope.stopTime = Date.now();
-            $scope.started = false;
-        }).error(function () {
-            $scope.errorMessage = "Unable to abort";
-        });
+        if($scope.user==""){
+            alert("you are not logged in")
+        }else {
+            buttonApi.sale($scope.user).success(function () {
+                $scope.stopTime = Date.now();
+                $scope.started = false;
+                refreshList();
+            }).error(function () {
+                $scope.errorMessage = "Unable to process";
+            });
+        }
     }
 
     refreshList();  //make sure the list items are loaded
@@ -138,7 +143,9 @@ function ButtonCtrl($scope, buttonApi) {
 
 /*
 function buttonApi($http, apiUrl) {
-    return {
+    return {if($scope.user==""){
+            alert("you are not logged in")
+        }else {
         getButtons: function () {
             var url = apiUrl + '/buttons';
             return $http.get(url);

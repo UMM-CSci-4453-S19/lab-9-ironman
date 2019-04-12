@@ -1,0 +1,5 @@
+create view transactionSummary as
+select TID as transactionID, MIN(timeStamp) as startTime, MAX(timeStamp) as stopTime,
+TIME_TO_SEC(TIMEDIFF(MAX(timeStamp),MIN(timeStamp))) as duration, user, SUM(cost) as total
+from ironman.transactionHistory
+group by TID;
